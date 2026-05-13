@@ -21,6 +21,12 @@ ultimo_stato = None
  
 def Arduino3000():
     while True:
+        if msvcrt.kbhit():
+            key = msvcrt.getwch()
+            if key.lower() == 'p':
+                print("Tasto 'p' premuto: uscita dal programma...")
+                break
+
         linea = ser.readline().decode('utf-8', errors='ignore').strip()
     
         if linea:
@@ -59,4 +65,9 @@ def Arduino3000():
 
 
 if __name__ == "__main__":
+    try:
         Arduino3000()
+    except KeyboardInterrupt:
+        print("Chiusura programma...")
+    finally:
+        ser.close()
